@@ -16,11 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         btnEnviar = (Button) findViewById(R.id.BotonEnviar);
         btnGaleria = (ImageButton) findViewById(R.id.enviarFoto);
 
-        baseDatos = FirebaseDatabase.getInstance("https://appchat-af17d-default-rtdb.firebaseio.com/");
+        baseDatos = FirebaseDatabase.getInstance();
         referenciaDB = baseDatos.getReference("chat");  //SaLa de chat (donde se guardarán todos los chats)
         almacenamientoDatos = FirebaseStorage.getInstance();
 
@@ -71,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adaptador);
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
+        btnEnviar.setOnClickListener(new View.OnClickListener() {  //Permite el envio y descarga de la imagen desde storage firebase
             @Override
             public void onClick(View v) {
-                referenciaDB.push().setValue(new Mensaje(txtMensajes.getText().toString(), nombre.getText().toString(),"","1", "00:00"));
+                referenciaDB.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(), nombre.getText().toString(),"","1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");
             }
         });
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("image/jpg");
+                i.setType("image/jpeg");
                 i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), FOTO_ENVIADA);
             }
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         referenciaDB.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Mensaje m = dataSnapshot.getValue(Mensaje.class);
+                MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
                 adaptador.addMensaje(m);
             }
 
@@ -141,9 +143,14 @@ public class MainActivity extends AppCompatActivity {
             referenciaFoto.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri u = taskSnapshot.getDownloadUrl();
-                    Mensaje m = new Mensaje("Te han enviado una foto", nombre.getText().toString(), u.toString(), "", "2", "00:00");
-                    referenciaDB.push().setValue(m);
+                    Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri u) {
+                            MensajeEnviar m = new MensajeEnviar("Te han enviado una foto", nombre.getText().toString(),"" , "2", u.toString(),ServerValue.TIMESTAMP );
+                            referenciaDB.push().setValue(m);
+                        }
+                    });
                 }
             });
         }

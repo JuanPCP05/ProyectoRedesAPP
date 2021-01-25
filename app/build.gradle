@@ -49,8 +49,8 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:cardview-v7:26+' //Tarjetas
 
-    compile 'com.google.firebase:firebase-database:10.2.6' //Base de Datos
-    compile 'com.google.firebase:firebase-storage:10.2.6'  //Base de Archivos
+    implementation 'com.google.firebase:firebase-database:19.6.0' //Base de Datos
+    implementation 'com.google.firebase:firebase-storage:19.2.1'  //Base de Archivos
 
     //Agregados
     compile 'de.hdodenhof:circleimageview:1.3.0' //Imagen Circular

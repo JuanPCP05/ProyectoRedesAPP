@@ -2,25 +2,23 @@ package com.example.proyectoredesapp;
 
 public class Mensaje {
 
-    private String mensaje, nombre, fotoPerfil, tipo_mensaje, hora, urlFoto;
+    private String mensaje, nombre, fotoPerfil, tipo_mensaje, urlFoto;
 
     public Mensaje() {
     }
 
-    public Mensaje(String mensaje, String nombre, String fotoPerfil, String tipo_mensaje, String hora) {
+    public Mensaje(String mensaje, String nombre, String fotoPerfil, String tipo_mensaje) {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.tipo_mensaje = tipo_mensaje;
-        this.hora = hora;
     }
 
-    public Mensaje(String mensaje, String nombre, String fotoPerfil, String tipo_mensaje, String hora, String urlFoto) {
+    public Mensaje(String mensaje, String nombre, String fotoPerfil, String tipo_mensaje, String urlFoto) {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.tipo_mensaje = tipo_mensaje;
-        this.hora = hora;
         this.urlFoto = urlFoto;
     }
 
@@ -56,11 +54,11 @@ public class Mensaje {
         this.tipo_mensaje = tipo_mensaje;
     }
 
-    public String getHora() {
-        return hora;
+    public String getUrlFoto() {
+        return urlFoto;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

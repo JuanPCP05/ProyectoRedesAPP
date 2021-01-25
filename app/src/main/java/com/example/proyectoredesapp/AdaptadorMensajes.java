@@ -1,6 +1,7 @@
 package com.example.proyectoredesapp;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,18 @@ public class AdaptadorMensajes extends RecyclerView.ViewHolder{
 
     private CircleImageView fotoPerfil;
     private TextView hora, mensajeReducido, nombre;
+    private ImageView fotoMensaje;
+
+    public AdaptadorMensajes(@NonNull View itemView) {
+        super(itemView);
+        fotoPerfil = (CircleImageView) itemView.findViewById(R.id.imagenPerfil);
+        hora = (TextView) itemView.findViewById(R.id.hora);
+        nombre = (TextView) itemView.findViewById(R.id.nombreReducido);
+        mensajeReducido = (TextView) itemView.findViewById(R.id.pequeñoMensaje);
+        fotoMensaje = (ImageView) itemView.findViewById(R.id.imagenMensaje);
+
+    }
+
 
     public CircleImageView getFotoPerfil() {
         return fotoPerfil;
@@ -45,14 +58,11 @@ public class AdaptadorMensajes extends RecyclerView.ViewHolder{
         this.nombre = nombre;
     }
 
-    public AdaptadorMensajes(@NonNull View itemView) {
-        super(itemView);
-        fotoPerfil = (CircleImageView) itemView.findViewById(R.id.imagenPerfil);
-        hora = (TextView) itemView.findViewById(R.id.hora);
-        nombre = (TextView) itemView.findViewById(R.id.nombreReducido);
-        mensajeReducido = (TextView) itemView.findViewById(R.id.pequeñoMensaje);
+    public ImageView getFotoMensaje() {
+        return fotoMensaje;
+    }
 
-
-
+    public void setFotoMensaje(ImageView fotoMensaje) {
+        this.fotoMensaje = fotoMensaje;
     }
 }
