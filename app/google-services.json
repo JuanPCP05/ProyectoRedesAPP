@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "120283550536",
+    "firebase_url": "https://appchat-af17d-default-rtdb.firebaseio.com/",
+    "project_id": "appchat-af17d",
+    "storage_bucket": "appchat-af17d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120283550536:android:8d86e8488a098cdd37197d",
+        "android_client_info": {
+          "package_name": "com.example.proyectoredesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120283550536-ctmlehchengucsqs6s5vn0bndciv5k17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZsEFKZTnXUBVy7pS6l4NBt6gJ-8SO7KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120283550536-ctmlehchengucsqs6s5vn0bndciv5k17.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
