@@ -1,8 +1,10 @@
-package com.example.proyectoredesapp;
+package com.example.proyectoredesapp.Entidades;
+
+import com.example.proyectoredesapp.Entidades.Mensaje;
 
 import java.util.Map;
 
-public class MensajeEnviar extends Mensaje{
+public class MensajeEnviar extends Mensaje {
 
     private Map hora;
 

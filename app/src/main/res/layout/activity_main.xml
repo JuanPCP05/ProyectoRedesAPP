@@ -28,6 +28,21 @@
         android:text="Juan"
         android:layout_gravity="center"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/salir"
+                android:layout_width="48sp"
+                android:layout_height="48sp"
+                android:src="@drawable/cerrar_sesion"
+                />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,6 +1,8 @@
-package com.example.proyectoredesapp;
+package com.example.proyectoredesapp.Entidades;
 
-public class MensajeRecibir extends Mensaje{
+import com.example.proyectoredesapp.Entidades.Mensaje;
+
+public class MensajeRecibir extends Mensaje {
 
     private Long hora;
 

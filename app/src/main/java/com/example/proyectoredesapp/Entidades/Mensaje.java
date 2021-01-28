@@ -1,4 +1,4 @@
-package com.example.proyectoredesapp;
+package com.example.proyectoredesapp.Entidades;
 
 public class Mensaje {
 
