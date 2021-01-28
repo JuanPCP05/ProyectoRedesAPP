@@ -1,4 +1,4 @@
-package com.example.proyectoredesapp;
+package com.example.proyectoredesapp.Actividades;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.proyectoredesapp.AdaptarMensaje;
+import com.example.proyectoredesapp.MensajeEnviar;
+import com.example.proyectoredesapp.MensajeRecibir;
+import com.example.proyectoredesapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -32,6 +36,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
 
     private static final int FOTO_ENVIADA = 1;
+    private static final int FOTO_PERFIL = 2;
+
+    private String fotoPerfilCadena;
 
     private TextView nombre;
 
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         txtMensajes = (EditText) findViewById(R.id.EscribirUnMensaje);
         btnEnviar = (Button) findViewById(R.id.BotonEnviar);
         btnGaleria = (ImageButton) findViewById(R.id.enviarFoto);
+        fotoPerfilCadena = "";
 
         baseDatos = FirebaseDatabase.getInstance();
         referenciaDB = baseDatos.getReference("chat");  //SaLa de chat (donde se guardarán todos los chats)
@@ -76,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {  //Permite el envio y descarga de la imagen desde storage firebase
             @Override
             public void onClick(View v) {
-                referenciaDB.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(), nombre.getText().toString(),"","1", ServerValue.TIMESTAMP));
+                referenciaDB.push().setValue(new MensajeEnviar(txtMensajes.getText().toString(), nombre.getText().toString(),fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
                 txtMensajes.setText("");
             }
         });
@@ -88,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
                 i.setType("image/jpeg");
                 i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), FOTO_ENVIADA);
+            }
+        });
+
+        fotoPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("image/jpeg");
+                i.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(i, "Selecciona una foto"), FOTO_PERFIL);
             }
         });
 
@@ -147,8 +165,27 @@ public class MainActivity extends AppCompatActivity {
                     result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri u) {
-                            MensajeEnviar m = new MensajeEnviar("Te han enviado una foto", nombre.getText().toString(),"" , "2", u.toString(),ServerValue.TIMESTAMP );
+                            MensajeEnviar m = new MensajeEnviar("Te han enviado una foto", nombre.getText().toString(),fotoPerfilCadena , "2", u.toString(),ServerValue.TIMESTAMP );
                             referenciaDB.push().setValue(m);
+                        }
+                    });
+                }
+            });
+        }else if (requestCode == FOTO_PERFIL && resultCode == RESULT_OK){
+            Uri u = data.getData();
+            referenciaAlmacenamiento = almacenamientoDatos.getReference("foto_perfil"); //Almacena las fotos de perfil del usuario
+            final StorageReference referenciaFoto = referenciaAlmacenamiento.child(u.getLastPathSegment()); //obtiene una key unica para la referencia de la foto
+            referenciaFoto.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri u) {
+                            fotoPerfilCadena = u.toString();
+                            MensajeEnviar m = new MensajeEnviar("Se ha actualizado la foto de perfil", nombre.getText().toString(),fotoPerfilCadena , "2", u.toString(),ServerValue.TIMESTAMP );
+                            referenciaDB.push().setValue(m);
+                            Glide.with(MainActivity.this).load(u.toString()).into(fotoPerfil);
                         }
                     });
                 }

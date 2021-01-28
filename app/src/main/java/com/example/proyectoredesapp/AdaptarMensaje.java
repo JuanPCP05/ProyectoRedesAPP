@@ -49,6 +49,12 @@ public class AdaptarMensaje extends RecyclerView.Adapter<AdaptadorMensajes> {
             holder.getFotoMensaje().setVisibility(View.GONE);
             holder.getMensajeReducido().setVisibility(View.VISIBLE);
         }
+        if(listMensaje.get(position).getFotoPerfil().isEmpty()){
+            holder.getFotoPerfil().setImageResource(R.mipmap.ic_launcher);
+        }else{
+            Glide.with(c).load(listMensaje.get(position).getFotoPerfil()).into(holder.getFotoPerfil());
+        }
+
 
         Long codigoHora = listMensaje.get(position).getHora();
         Date d = new Date(codigoHora);
