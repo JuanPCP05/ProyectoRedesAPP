@@ -11,20 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoRedesAPP">
-        <activity android:name=".Actividades.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Actividades.Registro">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".Actividades.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Actividades.Mensajeria"></activity>
+        <activity android:name=".Actividades.Registro"></activity>
     </application>
 
 </manifest>

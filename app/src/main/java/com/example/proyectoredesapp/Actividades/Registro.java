@@ -2,7 +2,6 @@ package com.example.proyectoredesapp.Actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -10,11 +9,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyectoredesapp.Entidades.Usuario;
+import com.bumptech.glide.Glide;
+import com.example.proyectoredesapp.Entidades.FireBase.Usuario;
 import com.example.proyectoredesapp.R;
+import com.example.proyectoredesapp.Utilidades.Constantes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,10 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Registro extends AppCompatActivity {
 
     private EditText txtNombre, txtCorreo, txtContrasena, txtRepetirContrasena;
     private Button btnRegistrar;
+    private CircleImageView fotoPerfil;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase baseDatos;
@@ -43,6 +46,7 @@ public class Registro extends AppCompatActivity {
         txtRepetirContrasena = (EditText) findViewById(R.id.rContraseña);
 
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
+        fotoPerfil = (CircleImageView) findViewById(R.id.fotoPerfilRegistro);
 
         mAuth = FirebaseAuth.getInstance();
         baseDatos = FirebaseDatabase.getInstance();
@@ -69,7 +73,7 @@ public class Registro extends AppCompatActivity {
                                         FirebaseUser currentUser = mAuth.getCurrentUser();
                                         DatabaseReference referenciaUsuarioBD = baseDatos.getReference("Usuarios/"+currentUser.getUid());
                                         referenciaUsuarioBD.setValue(usuario);
-                                        startActivity(new Intent(Registro.this, MainActivity.class));
+                                        startActivity(new Intent(Registro.this, Mensajeria.class));
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(Registro.this, "Error al registrar", Toast.LENGTH_SHORT).show();
@@ -81,6 +85,8 @@ public class Registro extends AppCompatActivity {
                 }
             }
         });
+
+        Glide.with(this).load(Constantes.URL_FOTO_DEFECTO).into(fotoPerfil);
 
     }
 

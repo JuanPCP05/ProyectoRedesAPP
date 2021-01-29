@@ -9,9 +9,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyectoredesapp.Entidades.FireBase.Usuario;
+import com.example.proyectoredesapp.Persistencia.AccesoDatosUsuario;
 import com.example.proyectoredesapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -74,6 +75,8 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, Registro.class));
             }
         });
+
+        //AccesoDatosUsuario.getInstancia().agregarFotoPerfilUsuarioSinFoto();  //Desmarcar el comentario si hay usuarios sin foto de perfil
     }
 
     private boolean validarCorreo(CharSequence target) {
@@ -103,7 +106,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void siguienteActividad(){
-        startActivity(new Intent(Login.this, MainActivity.class));
-        finish();
+        /*startActivity(new Intent(Login.this, Mensajeria.class));
+        finish();*/
     }
 }
